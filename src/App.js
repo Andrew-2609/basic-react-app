@@ -1,24 +1,27 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
-import List from "./components/List";
+import api from "./services/api";
 
 function App() {
 
-  useEffect(() => {
-    async function setUserRepositories() {
-      await localStorage.setItem('user-repositories', JSON.stringify({}));
-    }
+  const [username, setUsername] = useState("Andrew-2609");
+  const [userData, setUserData] = useState({});
 
-    setUserRepositories();
-  });
+  async function getUserGitHubData() {
+    const { data } = await api.get(username);
+
+    setUserData(data);
+  }
 
   return (
-    <div>
-      <h1>Hello React App World!</h1>
-      <List />
-      <br />
+    <div style={{ padding: 12 }}>
+      <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
+      <button onClick={() => getUserGitHubData()}>Search user</button>
+      <p>Name: {userData.name}</p>
+      <p>Company: {userData.company}</p>
     </div>
   );
+
 }
 
 export default App;
