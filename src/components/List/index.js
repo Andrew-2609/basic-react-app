@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+
+const set = new Set();
 
 export default function List() {
     const [counter, setCounter] = useState(1);
 
-    useEffect(() => {
-        return () => {
-            console.log("Updated :v");
-        }
-    }, [counter]);
+    const number = useMemo(() => {
+        return 123456 * 654321;
+    }, []);
 
-    useEffect(() => {
-        return () => {
-            console.log("Unmounted ;p")
-        }
-    }, [])
+    const handleSetCounter = useCallback(() => {
+        setCounter((oldCounter) => oldCounter + 1);
+        set.add(handleSetCounter);
+    }, []);
+
+    console.log(set.size);
+    console.log(`number: ${number}`)
 
     return (
         <div>
             Counter: { counter}
-            <br />
-            <br />
-            <button onClick={() => setCounter((oldCounter) => oldCounter + 1)}>Increase Counter</button>
+            <button onClick={handleSetCounter}>Increase Counter</button>
         </div>
     );
 }
