@@ -1,21 +1,17 @@
 import { useState } from "react";
 import "./App.css";
+import List from "./components/List";
 
 function App() {
 
-  const [counter, setCounter] = useState(1);
-
-  function changeCounter() {
-    setTimeout(() => {
-      setCounter((oldCounter) => oldCounter + 1);
-    }, 2000);
-  }
+  const [showList, setShowList] = useState(true);
 
   return (
     <div>
       <h1>Hello React App World!</h1>
-      Counter: {counter}
-      <button onClick={changeCounter}>Increase Counter</button>
+      {showList && <List />}
+      <br />
+      <button onClick={() => setShowList((oldShowList) => !oldShowList)}>Unmount List</button>
     </div>
   );
 }
