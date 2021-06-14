@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import api from "./services/api";
 
+interface UserData {
+  name: string;
+  company: string;
+}
+
 function App() {
 
   const [username, setUsername] = useState("Andrew-2609");
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<UserData>({
+    name: "",
+    company: ""
+  });
 
   useEffect(() => {
     // **using localStorage**
@@ -13,7 +21,7 @@ function App() {
 
     const sessionStorageData = sessionStorage.getItem("@basic-react-app/gitHubUserData");
 
-    setUserData(JSON.parse(sessionStorageData) || {});
+    setUserData(JSON.parse(sessionStorageData || ""));
   }, []);
 
   async function getUserGitHubData() {
